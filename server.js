@@ -7,15 +7,19 @@ const cors = require('cors');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// ✅ Middleware
+app.use(cors({
+  origin: 'https://secondhand-bookstore-frontend.vercel.app', // frontend domain
+  credentials: true
+}));
+
 app.use(express.json());
 app.use('/uploads', express.static('uploads')); 
 
-// Debug: show Mongo URI to verify it's loading
+// ✅ Debug: Show Mongo URI to verify it's loading
 console.log("✅ Loaded MONGO_URI:", process.env.MONGO_URI);
 
-// Routes
+// ✅ Routes
 const bookRoutes = require('./routes/books');
 const authRoutes = require('./routes/auth');
 const orderRoutes = require('./routes/orders');
@@ -26,19 +30,19 @@ app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Root endpoint
+// ✅ Root endpoint
 app.get('/', (req, res) => {
   res.send('📚 Secondhand Book Marketplace API is running...');
 });
 
-// MongoDB connection
+// ✅ MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => {
     console.error('❌ MongoDB connection error:', err);
   });
 
-// Start server
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
