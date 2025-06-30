@@ -4,17 +4,19 @@ require('dotenv').config(); // Load env vars FIRST
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
-// ✅ Middleware
+// ✅ CORS config to allow frontend (Vercel) to use cookies
 app.use(cors({
-  origin: 'https://secondhand-bookstore-frontend.vercel.app', // frontend domain
+  origin: 'https://secondhand-bookstore-frontend.vercel.app',
   credentials: true
 }));
 
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); 
+app.use(cookieParser()); // ✅ Must be added before using cookies
+app.use('/uploads', express.static('uploads'));
 
 // ✅ Debug: Show Mongo URI to verify it's loading
 console.log("✅ Loaded MONGO_URI:", process.env.MONGO_URI);
