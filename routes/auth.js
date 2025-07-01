@@ -5,9 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// ------------------------
 // POST /api/auth/register
-// ------------------------
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -39,9 +37,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// ------------------------
 // POST /api/auth/login
-// ------------------------
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -58,7 +54,6 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    // ✅ Set token in HTTP-only secure cookie
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
@@ -81,9 +76,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// ------------------------
 // GET /api/auth/profile
-// ------------------------
 router.get('/profile', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
