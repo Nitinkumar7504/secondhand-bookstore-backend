@@ -1,4 +1,3 @@
-// createAdmin.js
 require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -14,13 +13,13 @@ const createAdmin = async () => {
       process.exit(0);
     }
 
-    const hashedPassword = await bcrypt.hash('admin123', 10); // use hashed password here
-const admin = new User({
-  name: 'Admin',
-  email: 'admin@example.com',
-  password: hashedPassword, 
-  role: 'admin' // must be 'admin'
-});
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+    const admin = new User({
+      name: 'Admin',
+      email: 'admin@example.com',
+      password: hashedPassword,
+      role: 'admin'
+    });
 
     await admin.save();
     console.log('✅ Admin created: admin@example.com / admin123');

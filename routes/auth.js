@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// POST /api/auth/register
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -32,12 +31,11 @@ router.post('/register', async (req, res) => {
 
     res.status(201).json({ message: 'Registration successful.' });
   } catch (err) {
-    console.error('❌ Registration error:', err);
+    console.error('Registration error:', err);
     res.status(500).json({ error: 'Server error during registration' });
   }
 });
 
-// POST /api/auth/login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -71,12 +69,11 @@ router.post('/login', async (req, res) => {
       },
     });
   } catch (err) {
-    console.error('❌ Login error:', err);
+    console.error('Login error:', err);
     res.status(500).json({ error: 'Server error during login' });
   }
 });
 
-// GET /api/auth/profile
 router.get('/profile', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
@@ -84,7 +81,7 @@ router.get('/profile', authMiddleware, async (req, res) => {
 
     res.json(user);
   } catch (err) {
-    console.error('❌ Profile fetch error:', err);
+    console.error('Profile fetch error:', err);
     res.status(500).json({ error: 'Error fetching profile' });
   }
 });

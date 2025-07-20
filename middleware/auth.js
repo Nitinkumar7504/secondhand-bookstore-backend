@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -11,10 +11,9 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // attaches user info (e.g., id) to req
+    req.user = decoded;
     next();
   } catch (err) {
-    console.error('JWT error:', err);
     res.status(401).json({ error: 'Invalid or expired token.' });
   }
 };
