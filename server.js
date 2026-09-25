@@ -10,12 +10,27 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+// CORS
+const allowedOrigins = [
+  'https://secondhand-bookstore-frontend.vercel.app'
+];
+
 app.use(cors({
-  origin: [
-    'https://secondhand-bookstore-frontend.vercel.app',
-    'https://secondhand-bookstore-frontend-1lrl0yan6.vercel.app'
-  ],
-  credentials: true,
+  origin: function (origin, callback) {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (
+      allowedOrigins.includes(origin) ||
+      /^https:\/\/secondhand-bookstore-frontend-[a-z0-9-]+\.vercel\.app$/.test(origin)
+    ) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true
 }));
 
 app.use('/uploads', express.static('uploads'));
