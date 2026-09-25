@@ -7,20 +7,15 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
-
 app.use(express.json());
 app.use(cookieParser());
 
-
 app.use(cors({
-  origin: 'https://secondhand-bookstore-frontend.onrender.com',
+  origin: 'https://secondhand-bookstore-frontend.vercel.app',
   credentials: true,
 }));
 
-
 app.use('/uploads', express.static('uploads'));
-
-
 
 const bookRoutes = require('./routes/books');
 const authRoutes = require('./routes/auth');
@@ -32,12 +27,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 
-
 app.get('/', (req, res) => {
   res.send('Secondhand Bookstore API is live!');
 });
-
-
 
 mongoose
   .connect(process.env.MONGO_URI)
